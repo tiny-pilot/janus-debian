@@ -1,5 +1,10 @@
 # Janus Debian Package
 
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](LICENSE)
+[![CircleCI](https://circleci.com/gh/tiny-pilot/janus-debian/tree/master.svg?style=svg)](https://circleci.com/gh/tiny-pilot/janus-debian/tree/master)
+
+Use CircleCI to build an ARMv7 Debian package for the Janus WebRTC server.
+
 ## Overview
 
 We use Docker as a build context for creating an ARMv7 (armhf) Debian package, with precompiled Janus binaries (see the [Dockerfile](Dockerfile) for the complete build procedure). The resulting artifact is emitted to the `releases/` folder. For example:
