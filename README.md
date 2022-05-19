@@ -27,9 +27,7 @@ export PKG_BUILD_NUMBER="$(date '+%Y%m%d')"
 export DOCKER_BUILDKIT=1
 # Build Debian package.
 pushd "$(mktemp -d)" && \
-  git clone https://github.com/meetecho/janus-gateway.git \
-    --branch "v${PKG_VERSION}" \
-    --single-branch && \
+  git clone https://github.com/tiny-pilot/janus-debian.git . && \
   docker build \
     --build-arg PKG_VERSION \
     --build-arg PKG_BUILD_NUMBER \
