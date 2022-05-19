@@ -85,6 +85,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
 RUN git clone https://github.com/meetecho/janus-gateway.git \
         --branch "v${PKG_VERSION}" \
         --single-branch && \
+    cd janus-gateway && \
     sh autogen.sh && \
     ./configure --prefix="${INSTALL_DIR}" \
         --disable-all-plugins \
