@@ -28,7 +28,7 @@ export DOCKER_BUILDKIT=1
 # Build Debian package.
 pushd "$(mktemp -d)" && \
   git clone https://github.com/meetecho/janus-gateway.git \
-    --branch "${PKG_VERSION}" \
+    --branch "v${PKG_VERSION}" \
     --single-branch && \
   docker build \
     --build-arg PKG_VERSION \
