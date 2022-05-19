@@ -83,7 +83,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
 
 # Compile Janus.
 RUN git clone https://github.com/meetecho/janus-gateway.git \
-        --branch "${PKG_VERSION}" \
+        --branch "v${PKG_VERSION}" \
         --single-branch && \
     sh autogen.sh && \
     ./configure --prefix="${INSTALL_DIR}" \
