@@ -41,6 +41,9 @@ jobs:
               --target=artifact \
               --output type=local,dest=$(pwd)/releases/ \
               .
+      - run:
+          name: List contents of Debian package
+          command: dpkg --contents janus*.deb
       - store_artifacts:
           path: releases
 workflows:
