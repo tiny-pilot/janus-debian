@@ -160,10 +160,7 @@ RUN cp --parents --no-dereference /usr/lib/arm-linux-gnueabihf/libnice.so* \
     /usr/lib/libwebsockets.so* \
     "${PKG_DIR}/"
 
-RUN mkdir "${PKG_DIR}/DEBIAN"
-
 WORKDIR "${PKG_DIR}/DEBIAN"
-
 
 RUN cat > control <<EOF
 Package: ${PKG_NAME}
