@@ -15,8 +15,6 @@ ARG LIBNICE_VERSION="0.1.18"
 ARG LIBSRTP_VERSION="2.2.0"
 ARG LIBWEBSOCKETS_VERSION="v3.2-stable"
 
-COPY . /app
-
 RUN set -x && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -140,6 +138,8 @@ EOF
 
 RUN mkdir --parents "${PKG_DIR}"
 
+COPY ./debian-pkg "${PKG_DIR}"
+
 # Add Janus files to the Debian package.
 RUN cp --parents --recursive --no-dereference "${INSTALL_DIR}/etc/janus" \
     "${INSTALL_DIR}/bin/janus" \
@@ -164,6 +164,7 @@ RUN mkdir "${PKG_DIR}/DEBIAN"
 
 WORKDIR "${PKG_DIR}/DEBIAN"
 
+
 RUN cat > control <<EOF
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
@@ -174,29 +175,6 @@ Architecture: ${PKG_ARCH}
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
-
-RUN cat > triggers <<EOF
-# Reindex shared libraries.
-activate-noawait ldconfig
-EOF
-
-RUN cat > preinst <<EOF
-#!/bin/bash
-systemctl disable --now janus.service > /dev/null 2>&1 || true
-EOF
-RUN chmod 0555 preinst
-
-RUN cat > postinst <<EOF
-#!/bin/bash
-systemctl enable --now janus.service > /dev/null 2>&1 || true
-EOF
-RUN chmod 0555 postinst
-
-RUN cat > postrm <<EOF
-#!/bin/bash
-systemctl disable --now janus.service > /dev/null 2>&1 || true
-EOF
-RUN chmod 0555 postrm
 
 RUN dpkg --build "${PKG_DIR}"
 
