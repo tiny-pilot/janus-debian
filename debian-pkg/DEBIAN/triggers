@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Reindex shared libraries.
+activate-noawait ldconfig
