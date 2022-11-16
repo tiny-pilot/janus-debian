@@ -167,6 +167,7 @@ Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
 Depends: libconfig9, libglib2.0-0, libjansson4, libssl1.1, libc6, libsystemd0
+Conflicts: libnice10, libsrtp2-1, libwebsockets16
 Architecture: ${PKG_ARCH}
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
