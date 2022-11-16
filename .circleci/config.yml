@@ -61,6 +61,4 @@ workflows:
   build:
     jobs:
       - check_bash
-      - build_deb_pkg:
-          requires:
-            - check_bash
+      - build_deb_pkg
