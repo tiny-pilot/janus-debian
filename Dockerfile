@@ -49,8 +49,9 @@ RUN apt-get install -y --no-install-recommends \
 # Install libnice from a custom package because the version in apt-get is too
 # old.
 ARG LIBNICE_PKG_URL="https://github.com/tiny-pilot/libnice-debian/releases/download/0.1.18-20221116/libnice10_0.1.18-20221116_armhf.deb"
-RUN wget "${LIBNICE_PKG_URL}" --output-document="libnice.deb" && \
-    dpkg --install libnice.deb
+RUN cd "$(mktemp --directory)" && \
+    wget "${LIBNICE_PKG_URL}" && \
+    dpkg --install *.deb
 
 RUN wget "https://github.com/cisco/libsrtp/archive/v${LIBSRTP_VERSION}.tar.gz" && \
     tar xfv "v${LIBSRTP_VERSION}.tar.gz" && \
