@@ -38,9 +38,12 @@ RUN apt-get install -y --no-install-recommends \
 # Install additional Janus dependency packages.
 RUN apt-get install -y --no-install-recommends \
     automake \
+    gio-2.0 \
+    glib-2.0 \
     libtool \
     libjansson-dev \
     libconfig-dev \
+    nice \
     gengetopt
 
 # Install libnice from a custom package because the version in apt-get is too
