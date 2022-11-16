@@ -50,6 +50,7 @@ jobs:
               --build-arg PKG_VERSION \
               --build-arg "PKG_BUILD_NUMBER=$(date '+%Y%m%d')" \
               --target=artifact \
+              --progress=plain \
               --output type=local,dest=$(pwd)/releases/ \
               .
       - run:
