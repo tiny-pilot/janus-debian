@@ -43,7 +43,6 @@ RUN apt-get install -y --no-install-recommends \
     libtool \
     libjansson-dev \
     libconfig-dev \
-    nice \
     gengetopt
 
 # Install libnice from a custom package because the version in apt-get is too
