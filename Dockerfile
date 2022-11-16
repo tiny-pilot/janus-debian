@@ -11,7 +11,6 @@ ARG PKG_ARCH="armhf"
 ARG PKG_ID="${PKG_NAME}_${PKG_VERSION}-${PKG_BUILD_NUMBER}_${PKG_ARCH}"
 ARG PKG_DIR="/releases/${PKG_ID}"
 ARG INSTALL_DIR="/opt/janus"
-ARG LIBNICE_VERSION="0.1.18"
 ARG LIBSRTP_VERSION="2.2.0"
 ARG LIBWEBSOCKETS_VERSION="v3.2-stable"
 
@@ -28,14 +27,6 @@ RUN apt-get install -y --no-install-recommends \
     cmake \
     pkg-config
 
-# Install additional libnice dependency packages.
-RUN apt-get install -y --no-install-recommends \
-    libglib2.0-dev \
-    libssl-dev \
-    ninja-build
-
-RUN pip3 install meson
-
 # Install additional Janus dependency packages.
 RUN apt-get install -y --no-install-recommends \
     automake \
@@ -44,15 +35,12 @@ RUN apt-get install -y --no-install-recommends \
     libconfig-dev \
     gengetopt
 
-# libince is recommended to be installed from source because the version
-# installed via apt is too low.
-RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
-        --branch "${LIBNICE_VERSION}" \
-        --single-branch && \
-    cd libnice && \
-    meson --prefix=/usr build && \
-    ninja -C build && \
-    ninja -C build install
+# Install libnice from a custom package because the version in apt-get is too
+# old.
+# TODO: Replace with real URL.
+ARG LIBNICE_PKG_URL="https://p.tinypilotkvm.com/!Xu2Ex6oQoE/libnice10_0.1.18-20221116_armhf.deb"
+RUN wget "LIBNICE_PKG_URL" --output-document="libnice.deb" && \
+    dpkg --install libnice.deb
 
 RUN wget "https://github.com/cisco/libsrtp/archive/v${LIBSRTP_VERSION}.tar.gz" && \
     tar xfv "v${LIBSRTP_VERSION}.tar.gz" && \
@@ -155,7 +143,7 @@ RUN cp --parents --recursive --no-dereference "${INSTALL_DIR}/etc/janus" \
     "${PKG_DIR}/"
 
 # Add Janus compiled shared library dependencies to the Debian package.
-RUN cp --parents --no-dereference /usr/lib/arm-linux-gnueabihf/libnice.so* \
+RUN cp --parents --no-dereference \
     /usr/lib/libsrtp2.so* \
     /usr/lib/libwebsockets.so* \
     "${PKG_DIR}/"
@@ -166,8 +154,8 @@ RUN cat > control <<EOF
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
-Depends: libconfig9, libglib2.0-0, libjansson4, libssl1.1, libc6, libsystemd0
-Conflicts: libnice10, libsrtp2-1, libwebsockets16
+Depends: libconfig9, libglib2.0-0, libjansson4, libssl1.1, libc6, libsystemd0, libnice10 (>= 0.1.18)
+Conflicts: libsrtp2-1, libwebsockets16
 Architecture: ${PKG_ARCH}
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
