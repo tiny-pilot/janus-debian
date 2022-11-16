@@ -25,6 +25,7 @@ RUN apt-get install -y --no-install-recommends \
     wget \
     python3-pip \
     cmake \
+    libssl-dev \
     pkg-config
 
 # Install additional Janus dependency packages.
