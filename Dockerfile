@@ -39,7 +39,7 @@ RUN apt-get install -y --no-install-recommends \
 # old.
 # TODO: Replace with real URL.
 ARG LIBNICE_PKG_URL="https://p.tinypilotkvm.com/!Xu2Ex6oQoE/libnice10_0.1.18-20221116_armhf.deb"
-RUN wget "LIBNICE_PKG_URL" --output-document="libnice.deb" && \
+RUN wget "${LIBNICE_PKG_URL}" --output-document="libnice.deb" && \
     dpkg --install libnice.deb
 
 RUN wget "https://github.com/cisco/libsrtp/archive/v${LIBSRTP_VERSION}.tar.gz" && \
