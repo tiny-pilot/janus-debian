@@ -21,6 +21,7 @@ RUN set -x && \
 
 # Install general-purpose packages.
 RUN apt-get install -y --no-install-recommends \
+    ca-certificates \
     git \
     wget \
     cmake \
