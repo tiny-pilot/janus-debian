@@ -45,8 +45,7 @@ RUN apt-get install -y --no-install-recommends \
 
 # Install libnice from a custom package because the version in apt-get is too
 # old.
-# TODO: Replace with real URL.
-ARG LIBNICE_PKG_URL="https://p.tinypilotkvm.com/!Xu2Ex6oQoE/libnice10_0.1.18-20221116_armhf.deb"
+ARG LIBNICE_PKG_URL="https://github.com/tiny-pilot/libnice-debian/releases/download/0.1.18-20221116/libnice10_0.1.18-20221116_armhf.deb"
 RUN wget "${LIBNICE_PKG_URL}" --output-document="libnice.deb" && \
     dpkg --install libnice.deb
 
