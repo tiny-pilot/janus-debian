@@ -23,10 +23,16 @@ RUN set -x && \
 RUN apt-get install -y --no-install-recommends \
     git \
     wget \
-    python3-pip \
     cmake \
-    libssl-dev \
     pkg-config
+
+# Install dependencies for librtsp.
+RUN apt-get install -y --no-install-recommends \
+    libssl-dev
+
+# Install dependencies for libwebsockets.
+RUN apt-get install -y --no-install-recommends \
+    zlib1g-dev
 
 # Install additional Janus dependency packages.
 RUN apt-get install -y --no-install-recommends \
