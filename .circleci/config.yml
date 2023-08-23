@@ -16,11 +16,11 @@ jobs:
     docker:
       - image: cimg/base:stable
     # We're doing a remote Docker build, so we don't need local resources.
-    resource_class: small
+    resource_class: xlarge
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.14
+          version: 20.10.24
           docker_layer_caching: true
       - run:
           name: Enable multiarch builds with QEMU
