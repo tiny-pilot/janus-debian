@@ -16,7 +16,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     # We're doing a remote Docker build, so we don't need local resources.
-    resource_class: xlarge
+    resource_class: arm.xlarge
     steps:
       - checkout
       - setup_remote_docker:
