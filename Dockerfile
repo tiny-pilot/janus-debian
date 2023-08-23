@@ -104,6 +104,7 @@ RUN cat > "/lib/systemd/system/janus.service" <<EOF
 [Unit]
 Description=Janus WebRTC gateway
 After=network-online.target
+Wants=network-online.target
 Documentation=https://janus.conf.meetecho.com/docs/index.html
 
 [Service]
