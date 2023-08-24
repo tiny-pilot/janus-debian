@@ -100,6 +100,21 @@ RUN mkdir --parents "${INSTALL_DIR}/lib/janus/plugins" \
     "${INSTALL_DIR}/lib/janus/transports" \
     "${INSTALL_DIR}/lib/janus/loggers"
 
+# Use Janus sample config.
+RUN mv "${INSTALL_DIR}/etc/janus/janus.jcfg.sample" \
+        "${INSTALL_DIR}/etc/janus/janus.jcfg" && \
+    mv "${INSTALL_DIR}/etc/janus/janus.transport.websockets.jcfg.sample" \
+        "${INSTALL_DIR}/etc/janus/janus.transport.websockets.jcfg"
+
+# Overwrite Janus WebSocket config.
+RUN cat > "${INSTALL_DIR}/etc/janus/janus.transport.websockets.jcfg" <<EOF
+general: {
+    ws = true
+    ws_ip = "127.0.0.1"
+    ws_port = 8002
+}
+EOF
+
 RUN cat > "/lib/systemd/system/janus.service" <<EOF
 [Unit]
 Description=Janus WebRTC gateway

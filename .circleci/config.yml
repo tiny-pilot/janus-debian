@@ -15,8 +15,7 @@ jobs:
   build_deb_pkg:
     docker:
       - image: cimg/base:2023.06
-    # We're doing a remote Docker build, so we don't need local resources.
-    resource_class: arm.xlarge
+    resource_class: arm.large
     steps:
       - checkout
       - setup_remote_docker:
