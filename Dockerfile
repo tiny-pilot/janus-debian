@@ -72,7 +72,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
     make install
 
 # Compile Janus.
-ARG JANUS_VERSION="1.0.1"
+ARG JANUS_VERSION="1.3.1"
 ARG INSTALL_DIR="/opt/janus"
 RUN git clone https://github.com/meetecho/janus-gateway.git \
         --branch "v${JANUS_VERSION}" \
