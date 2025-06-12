@@ -1,17 +1,37 @@
 version: 2.1
+executors:
+  ubuntu-machine:
+    machine:
+      image: ubuntu-2204:2024.01.2
 jobs:
   check_bash:
-    docker:
-      - image: koalaman/shellcheck-alpine:v0.7.1
-    resource_class: small
+    # Use machine executor to allow for mounting a filesystem.
+    executor: ubuntu-machine
     steps:
-      - run:
-          name: Install dependencies
-          command: apk add bash git openssh-client grep
       - checkout
       - run:
-          name: Run static analysis on bash scripts
-          command: ./dev-scripts/check-bash
+          name: Install BATS
+          command: |
+            set -eux
+            git clone --branch v1.10.0 --depth 1 \
+              https://github.com/bats-core/bats-core.git
+            cd ./bats-core
+            sudo ./install.sh /usr
+            bats --version
+      - run:
+          name: Install ShellCheck
+          command: |
+            set -eux
+            readonly SHELLCHECK_VERSION='v0.9.0'
+            wget --quiet --output-document - \
+              "https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" |
+              tar --extract --xz --verbose
+            cd "./shellcheck-${SHELLCHECK_VERSION}"
+            sudo cp shellcheck /usr/bin
+            shellcheck --version
+      - run:
+          name: Run tests and static analysis on bash scripts
+          command: sudo ./dev-scripts/check-bash
   build_deb_pkg:
     docker:
       - image: cimg/base:2023.06
