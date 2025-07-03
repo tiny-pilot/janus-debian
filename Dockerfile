@@ -208,7 +208,7 @@ RUN set -x && \
     PKG_ID="$(cat /tmp/pkg-id)" && \
     mv placeholder-pkg-id "${PKG_ID}" && \
     cd "${PKG_ID}" && \
-    DH_VERBOSE=1 dpkg-buildpackage --build=binary
+    DH_VERBOSE=1 dpkg --build
 
 FROM scratch as artifact
 
