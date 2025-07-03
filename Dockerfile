@@ -130,15 +130,44 @@ LimitNOFILE=65536
 WantedBy=multi-user.target
 EOF
 
-ARG PKG_NAME="janus"
-ARG PKG_VERSION="0.0.0"
-ARG PKG_BUILD_NUMBER="1"
-ARG PKG_ARCH="armhf"
-ARG PKG_ID="${PKG_NAME}_${PKG_VERSION}-${PKG_BUILD_NUMBER}_${PKG_ARCH}"
-ARG PKG_DIR="/releases/${PKG_ID}"
-RUN mkdir --parents "${PKG_DIR}"
+# Docker populates this value from the --platform argument. See
+# https://docs.docker.com/build/building/multi-platform/
+ARG TARGETPLATFORM
 
-COPY ./debian-pkg "${PKG_DIR}"
+ARG PKG_NAME='janus'
+ARG PKG_VERSION='1.3.1'
+
+# This should be a timestamp, formatted `YYYYMMDDhhmmss`. That way the package
+# manager always installs the most recently built package.
+ARG PKG_BUILD_NUMBER
+
+# Docker's platform names don't match Debian's platform names, so we translate
+# the platform name from the Docker version to the Debian version and save the
+# result to a file so we can re-use it in later stages.
+RUN cat | bash <<'EOF'
+set -exu
+case "${TARGETPLATFORM}" in
+  'linux/amd64')
+    PKG_ARCH='amd64'
+    ;;
+  'linux/arm/v7')
+    PKG_ARCH='armhf'
+    ;;
+  *)
+    echo "Unrecognized target platform: ${TARGETPLATFORM}" >&2
+    exit 1
+esac
+echo "${PKG_ARCH}" > /tmp/pkg-arch
+echo "${PKG_NAME}_${PKG_VERSION}-${PKG_BUILD_NUMBER}_${PKG_ARCH}" > /tmp/pkg-id
+EOF
+
+# We ultimately need the directory name to be the package ID, but there's no
+# way to specify a dynamic value in Docker's WORKDIR command, so we use a
+# placeholder directory name to assemble the Debian package and then rename the
+# directory to its package ID name in the final stages of packaging.
+WORKDIR /build/placeholder-pkg-id
+
+COPY ./debian-pkg ./
 
 # Add Janus files to the Debian package.
 RUN cp --parents --recursive --no-dereference "${INSTALL_DIR}/etc/janus" \
@@ -152,15 +181,15 @@ RUN cp --parents --recursive --no-dereference "${INSTALL_DIR}/etc/janus" \
     "${INSTALL_DIR}/share/man/man1/janus.1" \
     "${INSTALL_DIR}/share/man/man1/janus-cfgconv.1" \
     /lib/systemd/system/janus.service \
-    "${PKG_DIR}/"
+    ./
 
 # Add Janus compiled shared library dependencies to the Debian package.
 RUN cp --parents --no-dereference /usr/lib/arm-linux-gnueabihf/libnice.so* \
     /usr/lib/libsrtp2.so* \
     /usr/lib/libwebsockets.so* \
-    "${PKG_DIR}/"
+    ./
 
-WORKDIR "${PKG_DIR}/DEBIAN"
+WORKDIR DEBIAN
 
 RUN cat > control <<EOF
 Package: ${PKG_NAME}
@@ -173,8 +202,14 @@ Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
 
-RUN dpkg --build "${PKG_DIR}"
+# Rename the placeholder build directory to the final package ID.
+WORKDIR /build
+RUN set -x && \
+    PKG_ID="$(cat /tmp/pkg-id)" && \
+    mv placeholder-pkg-id "${PKG_ID}" && \
+    cd "${PKG_ID}" && \
+    DH_VERBOSE=1 dpkg-buildpackage --build=binary
 
 FROM scratch as artifact
 
-COPY --from=build "/releases/*.deb" ./
+COPY --from=build "/build/*.deb" ./
