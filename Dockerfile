@@ -191,7 +191,10 @@ RUN cp --parents --no-dereference /usr/lib/arm-linux-gnueabihf/libnice.so* \
 
 WORKDIR DEBIAN
 
-RUN cat > control <<EOF
+RUN set -x && \
+    PKG_ARCH="$(cat /tmp/pkg-arch)" && \
+    set -u && \
+    cat >control <<EOF
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
