@@ -2,7 +2,7 @@
 # Enable here-documents:
 # https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/syntax.md#here-documents
 
-FROM debian:buster-20220418-slim AS build
+FROM debian:bullseye-20220328-slim AS build
 
 RUN set -ux && \
     apt-get update && \
