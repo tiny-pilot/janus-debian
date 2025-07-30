@@ -209,8 +209,7 @@ WORKDIR /build
 RUN set -ux && \
     PKG_ID="$(cat /tmp/pkg-id)" && \
     mv placeholder-pkg-id "${PKG_ID}" && \
-    cd "${PKG_ID}" && \
-    DH_VERBOSE=1 dpkg --build ./
+    dpkg --build ./"${PKG_ID}"
 
 FROM scratch as artifact
 
