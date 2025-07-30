@@ -4,7 +4,7 @@
 
 FROM debian:buster-20220418-slim AS build
 
-RUN set -x && \
+RUN set -ux && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       dpkg-dev
@@ -145,7 +145,7 @@ ARG PKG_BUILD_NUMBER
 # the platform name from the Docker version to the Debian version and save the
 # result to a file so we can re-use it in later stages.
 RUN cat | bash <<'EOF'
-set -exu
+set -eux
 case "${TARGETPLATFORM}" in
   'linux/amd64')
     PKG_ARCH='amd64'
@@ -191,9 +191,8 @@ RUN cp --parents --no-dereference /usr/lib/arm-linux-gnueabihf/libnice.so* \
 
 WORKDIR DEBIAN
 
-RUN set -x && \
+RUN set -ux && \
     PKG_ARCH="$(cat /tmp/pkg-arch)" && \
-    set -u && \
     cat >control <<EOF
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
@@ -207,7 +206,7 @@ EOF
 
 # Rename the placeholder build directory to the final package ID.
 WORKDIR /build
-RUN set -x && \
+RUN set -ux && \
     PKG_ID="$(cat /tmp/pkg-id)" && \
     mv placeholder-pkg-id "${PKG_ID}" && \
     cd "${PKG_ID}" && \
