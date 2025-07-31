@@ -121,12 +121,27 @@ WORKDIR debian
 RUN set -ux && \
     PKG_ARCH="$(cat /tmp/pkg-arch)" && \
     cat >control <<EOF
+Source: ${PKG_NAME}
+Section: comm
+Priority: optional
+Maintainer: TinyPilot Support <support@tinypilotkvm.com>
+
+Build-Depends:
+ debhelper-compat (>= 11),
+ libconfig-dev,
+ libglib2.0-dev,
+ libjansson-dev,
+ libssl-dev,
+
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
-Maintainer: TinyPilot Support <support@tinypilotkvm.com>
-Depends: libconfig9, libglib2.0-0, libjansson4, libssl1.1, libc6, libsystemd0
-Conflicts: libnice10, libsrtp2-1, libwebsockets16
 Architecture: ${PKG_ARCH}
+Pre-Depends:
+ \${misc:Pre-Depends},
+Depends:
+ \${misc:Depends},
+ \${shlibs:Depends},
+Conflicts: libnice10, libsrtp2-1, libwebsockets16
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
