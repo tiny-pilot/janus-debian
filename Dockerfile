@@ -131,6 +131,14 @@ Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
 
+RUN cat >changelog <<EOF
+${PKG_NAME} (${PKG_VERSION}-${PKG_BUILD_NUMBER}) bullseye; urgency=medium
+
+  * Latest Janus release.
+
+ -- TinyPilot Support <support@tinypilotkvm.com>  $(date '+%a, %d %b %Y %H:%M:%S %z')
+EOF
+
 # Rename the placeholder build directory to the final package ID.
 WORKDIR /build
 RUN set -ux && \
