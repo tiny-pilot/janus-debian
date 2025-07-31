@@ -35,7 +35,7 @@ RUN apt-get install --yes --no-install-recommends \
 
 # libince is recommended to be installed from source because the version
 # installed via apt is too low.
-ARG LIBNICE_VERSION="0.1.18"
+ARG LIBNICE_VERSION='0.1.18'
 RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
       --branch "${LIBNICE_VERSION}" \
       --single-branch && \
@@ -44,16 +44,17 @@ RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
     ninja -C build && \
     ninja -C build install
 
-ARG LIBSRTP_VERSION="v2.2.0"
-RUN wget "https://github.com/cisco/libsrtp/archive/${LIBSRTP_VERSION}.tar.gz" && \
+ARG LIBSRTP_VERSION='2.2.0'
+RUN wget "https://github.com/cisco/libsrtp/archive/v${LIBSRTP_VERSION}.tar.gz" && \
     tar xfv "v${LIBSRTP_VERSION}.tar.gz" && \
     cd "libsrtp-${LIBSRTP_VERSION}" && \
-    ./configure --prefix=/usr \
+    ./configure \
+      --prefix=/usr \
       --enable-openssl && \
     make shared_library && \
     make install
 
-ARG LIBWEBSOCKETS_VERSION="v3.2-stable"
+ARG LIBWEBSOCKETS_VERSION='v3.2-stable'
 RUN git clone https://libwebsockets.org/repo/libwebsockets \
       --branch "${LIBWEBSOCKETS_VERSION}" \
       --single-branch && \
@@ -66,7 +67,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
       # https://github.com/meetecho/janus-gateway/issues/2476
       -DLWS_WITHOUT_EXTENSIONS=0 \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-      -DCMAKE_C_FLAGS="-fpic" \
+      -DCMAKE_C_FLAGS='-fpic' \
       .. && \
     make && \
     make install
