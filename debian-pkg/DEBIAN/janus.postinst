@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Ensure default directories exist.
+mkdir --parents "${PREFIX}/lib/janus/plugins" \
+  "${PREFIX}/lib/janus/transports" \
+  "${PREFIX}/lib/janus/loggers"
+
+#DEBHELPER#

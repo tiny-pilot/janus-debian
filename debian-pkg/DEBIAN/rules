@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+# Set all dpkg-architecture variables (i.e., ${DEB_HOST_MULTIARCH}, etc.).
+include /usr/share/dpkg/architecture.mk
+
+# Prevent debhelper from generating an extra package with debug symbols.
+export DEB_BUILD_OPTIONS=noddebs
+
+export PREFIX=/opt/janus
+export MANPREFIX=/usr/share/man
+
+%:
+	dh $@
+
+# Skip running dh_usrlocal.
+override_dh_usrlocal:
+
+override_dh_auto_build:
+	dh_auto_build -- \
+		--disable-all-plugins \
+		--disable-all-transports \
+		--disable-all-handlers \
+		--disable-all-loggers \
+		--enable-websockets
