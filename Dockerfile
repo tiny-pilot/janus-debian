@@ -109,7 +109,7 @@ EOF
 # directory to its package ID name in the final stages of packaging.
 WORKDIR /build/placeholder-pkg-id
 
-ARG JANUS_VERSION="v${PKG_VERSION}}"
+ARG JANUS_VERSION="v${PKG_VERSION}"
 RUN git clone https://github.com/meetecho/janus-gateway.git \
       --branch "${JANUS_VERSION}" \
       --single-branch
