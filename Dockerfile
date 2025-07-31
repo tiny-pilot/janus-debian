@@ -114,13 +114,6 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
       --branch "${JANUS_VERSION}" \
       --single-branch
 
-# Allow Janus C header files to be included when compiling third-party plugins.
-# https://github.com/tiny-pilot/ansible-role-tinypilot/issues/192
-RUN sed \
-      --in-place \
-      's/^#include "refcount\.h"$/#include "\.\.\/refcount\.h"/g' \
-      ./janus-gateway/include/janus/plugins/plugin.h
-
 COPY ./debian-pkg ./
 
 WORKDIR debian
