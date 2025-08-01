@@ -125,22 +125,21 @@ Source: ${PKG_NAME}
 Section: comm
 Priority: optional
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
-
 Build-Depends:
  debhelper-compat (>= 11),
  libconfig-dev,
  libglib2.0-dev,
  libjansson-dev,
- libssl-dev,
+ libssl-dev
 
 Package: ${PKG_NAME}
 Version: ${PKG_VERSION}
 Architecture: ${PKG_ARCH}
 Pre-Depends:
- \${misc:Pre-Depends},
+ \${misc:Pre-Depends}
 Depends:
  \${misc:Depends},
- \${shlibs:Depends},
+ \${shlibs:Depends}
 Conflicts: libnice10, libsrtp2-1, libwebsockets16
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
