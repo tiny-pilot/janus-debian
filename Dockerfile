@@ -4,9 +4,11 @@
 
 FROM debian:bullseye-20220328-slim AS build
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN set -ux && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+    apt-get install --yes \
+      debhelper \
       dpkg-dev
 
 # Install general-purpose packages.
