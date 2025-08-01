@@ -120,7 +120,9 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
       --single-branch \
       .
 
-# Add Janus compiled shared library dependencies to the Debian package.
+# Include locally compiled shared library dependencies in the package.
+# Note: Ensure that /usr/lib/janus is set as the RPATH during buildtime so that
+# Janus can find these libraries at runtime.
 RUN mkdir --parent usr/lib/janus && \
     cp --no-dereference \
       /usr/lib/arm-linux-gnueabihf/libnice.so* \

@@ -17,6 +17,7 @@ override_dh_usrlocal:
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
+		-DCMAKE_INSTALL_RPATH=/usr/lib/janus \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
