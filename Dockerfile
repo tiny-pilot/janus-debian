@@ -5,8 +5,7 @@
 FROM debian:bullseye-20220328-slim AS build
 
 ARG DEBIAN_FRONTEND='noninteractive'
-RUN set -ux && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install --yes \
       debhelper \
       dpkg-dev
@@ -79,7 +78,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
 ARG TARGETPLATFORM
 
 ARG PKG_NAME='janus'
-ARG PKG_VERSION='1.3.1'
+ARG PKG_VERSION='1.3.2'
 
 # This should be a timestamp, formatted `YYYYMMDDhhmmss`. That way the package
 # manager always installs the most recently built package.
@@ -146,10 +145,17 @@ Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
 
+# Install build dependencies based on Debian control file.
+RUN mk-build-deps \
+      --tool 'apt-get --option Debug::pkgProblemResolver=yes --no-install-recommends -qqy' \
+      --install \
+      --remove \
+      control
+
 RUN cat >changelog <<EOF
 ${PKG_NAME} (${PKG_VERSION}-${PKG_BUILD_NUMBER}) bullseye; urgency=medium
 
-  * Latest Janus release.
+  * Janus ${PKG_VERSION} release.
 
  -- TinyPilot Support <support@tinypilotkvm.com>  $(date '+%a, %d %b %Y %H:%M:%S %z')
 EOF
