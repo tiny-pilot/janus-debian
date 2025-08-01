@@ -121,11 +121,12 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
       .
 
 # Add Janus compiled shared library dependencies to the Debian package.
-RUN cp --parents --no-dereference \
+RUN mkdir --parent usr/lib/janus && \
+    cp --no-dereference \
       /usr/lib/arm-linux-gnueabihf/libnice.so* \
       /usr/lib/libsrtp2.so* \
       /usr/lib/libwebsockets.so* \
-      .
+      usr/lib/janus
 
 COPY ./debian-pkg ./
 
