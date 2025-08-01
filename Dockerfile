@@ -155,7 +155,6 @@ Pre-Depends:
 Depends:
  \${misc:Depends},
  \${shlibs:Depends}
-Conflicts: libnice10, libsrtp2-1, libwebsockets16
 Homepage: https://janus.conf.meetecho.com/
 Description: An open source, general purpose, WebRTC server
 EOF
