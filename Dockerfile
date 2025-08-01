@@ -126,7 +126,7 @@ Section: comm
 Priority: optional
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
 Build-Depends:
- debhelper-compat (>= 11),
+ debhelper (>= 11),
  libconfig-dev,
  libglib2.0-dev,
  libjansson-dev,
