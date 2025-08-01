@@ -15,8 +15,8 @@ export MANPREFIX=/usr/share/man
 # Skip running dh_usrlocal.
 override_dh_usrlocal:
 
-override_dh_auto_build:
-	dh_auto_build -- \
+override_dh_auto_configure:
+	dh_auto_configure -- \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \

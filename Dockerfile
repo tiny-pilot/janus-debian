@@ -173,6 +173,10 @@ RUN set -ux && \
     cd "${PKG_ID}" && \
     DH_VERBOSE=1 dpkg-buildpackage --build=binary
 
+# Print build directory contents.
+RUN apt-get install --yes tree && \
+    tree
+
 FROM scratch as artifact
 
 COPY --from=build "/build/*.deb" ./
