@@ -133,7 +133,6 @@ Build-Depends:
  libssl-dev
 
 Package: ${PKG_NAME}
-Version: ${PKG_VERSION}
 Architecture: ${PKG_ARCH}
 Pre-Depends:
  \${misc:Pre-Depends}
