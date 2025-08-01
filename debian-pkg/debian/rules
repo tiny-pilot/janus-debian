@@ -9,17 +9,13 @@ export DEB_BUILD_OPTIONS=noddebs
 # Embed a custom RPATH so that Janus can locate the shared libraries at runtime.
 export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath=/usr/lib/janus
 
-export PREFIX=/opt/janus
-export MANPREFIX=/usr/share/man
-
 %:
 	dh $@
 
-# Skip running dh_usrlocal.
-override_dh_usrlocal:
-
 override_dh_auto_configure:
 	dh_auto_configure -- \
+		--prefix=/opt/janus
+		--mandir=/usr/share/man
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
