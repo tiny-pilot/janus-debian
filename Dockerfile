@@ -8,7 +8,11 @@ ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update && \
     apt-get install --yes \
       debhelper \
-      dpkg-dev
+      dpkg-dev \
+      devscripts \
+      equivs \
+      fakeroot \
+      build-essential
 
 # Install general-purpose packages.
 RUN apt-get install --yes --no-install-recommends \
