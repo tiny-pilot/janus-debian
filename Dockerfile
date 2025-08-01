@@ -114,6 +114,13 @@ EOF
 # directory to its package ID name in the final stages of packaging.
 WORKDIR /build/placeholder-pkg-id
 
+# Add Janus compiled shared library dependencies to the Debian package.
+RUN cp --parents --no-dereference \
+      /usr/lib/arm-linux-gnueabihf/libnice.so* \
+      /usr/lib/libsrtp2.so* \
+      /usr/lib/libwebsockets.so* \
+      .
+
 ARG JANUS_VERSION="v${PKG_VERSION}"
 RUN git clone https://github.com/meetecho/janus-gateway.git \
       --branch "${JANUS_VERSION}" \
