@@ -5,14 +5,14 @@
 FROM debian:bullseye-20220328-slim AS build
 
 ARG DEBIAN_FRONTEND='noninteractive'
+
+# Install Debian packaging packages.
 RUN apt-get update && \
     apt-get install --yes \
       debhelper \
       dpkg-dev \
       devscripts \
-      equivs \
-      fakeroot \
-      build-essential
+      equivs
 
 # Install general-purpose packages.
 RUN apt-get install --yes --no-install-recommends \
