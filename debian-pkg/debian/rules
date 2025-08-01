@@ -14,8 +14,8 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath=/usr/lib/janus
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		--prefix=/opt/janus
-		--mandir=/usr/share/man
+		--prefix=/opt/janus \
+		--mandir=/usr/share/man \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
