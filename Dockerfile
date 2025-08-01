@@ -117,7 +117,8 @@ WORKDIR /build/placeholder-pkg-id
 ARG JANUS_VERSION="v${PKG_VERSION}"
 RUN git clone https://github.com/meetecho/janus-gateway.git \
       --branch "${JANUS_VERSION}" \
-      --single-branch
+      --single-branch \
+      .
 
 COPY ./debian-pkg ./
 
