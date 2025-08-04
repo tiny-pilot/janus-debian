@@ -121,6 +121,8 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
       .
 
 # Include locally compiled shared library dependencies in the package.
+# Note: Ensure that shlib is appended to RPATH during buildtime so that
+# Janus can find these libraries at runtime.
 RUN mkdir shlib && \
     cp --no-dereference \
       /usr/lib/arm-linux-gnueabihf/libnice.so* \

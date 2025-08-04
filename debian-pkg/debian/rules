@@ -6,6 +6,9 @@ include /usr/share/dpkg/architecture.mk
 # Prevent debhelper from generating an extra package with debug symbols.
 export DEB_BUILD_OPTIONS=noddebs
 
+# Embed a custom RPATH so that Janus can locate the shared libraries at runtime.
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath=/usr/lib/${DEB_HOST_MULTIARCH}/janus/shlib
+
 %:
 	dh $@
 
