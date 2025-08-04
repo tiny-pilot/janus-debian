@@ -121,14 +121,12 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
       .
 
 # Include locally compiled shared library dependencies in the package.
-# Note: Ensure that /usr/lib/janus is set as the RPATH during buildtime so that
-# Janus can find these libraries at runtime.
-RUN mkdir --parent usr/lib/janus && \
+RUN mkdir shlib && \
     cp --no-dereference \
       /usr/lib/arm-linux-gnueabihf/libnice.so* \
       /usr/lib/libsrtp2.so* \
       /usr/lib/libwebsockets.so* \
-      usr/lib/janus
+      shlib
 
 COPY ./debian-pkg ./
 
@@ -143,6 +141,7 @@ Priority: optional
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
 Build-Depends:
  debhelper (>= 11),
+ dh-exec,
  libconfig-dev,
  libglib2.0-dev,
  libjansson-dev,
