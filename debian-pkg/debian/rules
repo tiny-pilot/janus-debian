@@ -11,7 +11,7 @@ export DEB_BUILD_OPTIONS=noddebs
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		--prefix=/usr
+		--prefix=/usr \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
