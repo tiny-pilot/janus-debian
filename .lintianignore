@@ -1,0 +1,3 @@
+# We explicitly embed shared libraries within this package to satisfy
+# dependencies and avoid systemwide package conflicts.
+embedded-library
