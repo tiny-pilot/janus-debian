@@ -1,3 +1,7 @@
 # We explicitly embed shared libraries within this package to satisfy
 # dependencies and avoid systemwide package conflicts.
 embedded-library
+
+# Lintian complains about unnecessary use of the ldconfig trigger even though
+# this package doesn't include any triggers.
+package-has-unnecessary-activation-of-ldconfig-trigger
