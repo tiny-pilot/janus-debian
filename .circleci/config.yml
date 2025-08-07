@@ -65,7 +65,7 @@ jobs:
           name: Print lintian version
           command: lintian --version
       - run:
-          name: Run lintian
+          name: Run static analysis on Debian package
           command: ./dev-scripts/check-debian-pkg
 workflows:
   build:
