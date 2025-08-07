@@ -20,3 +20,9 @@ override_dh_auto_configure:
 		--disable-all-handlers \
 		--disable-all-loggers \
 		--enable-websockets
+
+override_dh_install:
+	dh_install
+    # Remove all .la files from the package.
+    # https://lintian.debian.org/tags/non-empty-dependency_libs-in-la-file.html
+	find debian -name '*.la' -delete
