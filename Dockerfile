@@ -157,7 +157,8 @@ Depends:
  \${misc:Depends},
  \${shlibs:Depends}
 Homepage: https://janus.conf.meetecho.com/
-Description: An open source, general purpose, WebRTC server
+Description: An open source, general purpose, WebRTC server designed and
+  developed by Meetecho.
 EOF
 
 # Install build dependencies based on Debian control file.
