@@ -16,7 +16,6 @@ override_dh_auto_configure:
 	dh_auto_configure -- \
 		--prefix=/usr \
 		--disable-docs \
-		--disable-demos \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
@@ -28,3 +27,6 @@ override_dh_install:
     # Remove all .la files from the package.
     # https://lintian.debian.org/tags/non-empty-dependency_libs-in-la-file.html
 	find debian -name '*.la' -delete
+    # Remove website html directory.
+    # https://lintian.debian.org/tags/privacy-breach-uses-embedded-file.html
+    rm -rf debian/usr/share/janus/html
