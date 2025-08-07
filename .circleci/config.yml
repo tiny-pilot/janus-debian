@@ -43,13 +43,6 @@ jobs:
       - run:
           name: Build Debian package
           command: ./dev-scripts/build-debian-pkg 'linux/arm/v7'
-      - run:
-          name: Print Debian package contents
-          command: |
-            set -eux
-            while read -r file; do
-              dpkg --contents "${file}"
-            done < <(find . -name '*.deb')
       - persist_to_workspace:
           root: build
           paths:

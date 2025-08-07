@@ -12,6 +12,9 @@ set -x
 set -u
 
 while read -r file; do
+  # Print Debian package contents.
+  dpkg --contents "${file}"
+  # Lint Debian package.
   lintian \
     --check \
     --no-tag-display-limit \
