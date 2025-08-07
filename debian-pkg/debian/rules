@@ -16,6 +16,7 @@ override_dh_auto_configure:
 	dh_auto_configure -- \
 		--prefix=/usr \
 		--disable-docs \
+		--disable-demos \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
