@@ -73,5 +73,9 @@ jobs:
 workflows:
   build:
     jobs:
+      - check_whitespace
       - check_bash
       - build_debian_package
+      - check_debian_package:
+          requires:
+            - build_debian_package
