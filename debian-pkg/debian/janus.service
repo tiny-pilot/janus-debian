@@ -1,6 +1,6 @@
 [Unit]
 Description=Janus WebRTC gateway
-After=syslog.target network.target
+After=network.target
 Documentation=https://janus.conf.meetecho.com/docs/index.html
 # Give up if we restart on failure 20 times within 5 minutes (300 seconds).
 StartLimitIntervalSec=300
