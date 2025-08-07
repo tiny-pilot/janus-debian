@@ -15,6 +15,7 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath=/usr/lib/${DEB_HOST_MULTIARCH}/janu
 override_dh_auto_configure:
 	dh_auto_configure -- \
 		--prefix=/usr \
+		--disable-docs \
 		--disable-all-plugins \
 		--disable-all-transports \
 		--disable-all-handlers \
