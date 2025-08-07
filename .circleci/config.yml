@@ -4,6 +4,16 @@ executors:
     docker:
       - image: cimg/base:2024.02
 jobs:
+  check_whitespace:
+    executor: ubuntu
+    steps:
+      - checkout
+      - run:
+          name: Check for trailing whitespace
+          command: ./dev-scripts/check-trailing-whitespace
+      - run:
+          name: Check that all text files end in a trailing newline
+          command: ./dev-scripts/check-trailing-newline
   check_bash:
     executor: ubuntu
     resource_class: small
@@ -42,6 +52,24 @@ jobs:
             done < <(find . -name '*.deb')
       - store_artifacts:
           path: build
+  check_debian_package:
+    executor: ubuntu
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Update apt packages
+          command: sudo apt-get update
+      - run:
+          name: Install lintian
+          command: sudo apt-get install -y lintian=2.114.0ubuntu1
+      - run:
+          name: Print lintian version
+          command: lintian --version
+      - run:
+          name: Run lintian
+          command: ./dev-scripts/check-debian-pkg
 workflows:
   build:
     jobs:
