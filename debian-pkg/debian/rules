@@ -29,4 +29,4 @@ override_dh_install:
 	find debian -name '*.la' -delete
 	# Remove website html directory.
 	# https://lintian.debian.org/tags/privacy-breach-uses-embedded-file.html
-	rm -rf debian/usr/share/janus/html
+	rm -rf debian/janus/usr/share/janus/html
