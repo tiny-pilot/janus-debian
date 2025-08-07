@@ -18,7 +18,6 @@ while read -r file; do
   lintian \
     --check \
     --no-tag-display-limit \
-    --suppress-tags-from-file .lintianignore \
     --no-cfg \
     --fail-on warning,error \
     "${file}"
