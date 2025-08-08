@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+# Set all dpkg-architecture variables (i.e., ${DEB_HOST_MULTIARCH}, etc.).
+include /usr/share/dpkg/architecture.mk
+
+# Prevent debhelper from generating an extra package with debug symbols.
+export DEB_BUILD_OPTIONS=noddebs
+
+# Embed a custom RPATH so that Janus can locate the shared libraries at runtime.
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-rpath=/usr/lib/${DEB_HOST_MULTIARCH}/janus/shlib
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--prefix=/usr \
+		--disable-docs \
+		--disable-all-plugins \
+		--disable-all-transports \
+		--disable-all-handlers \
+		--disable-all-loggers \
+		--enable-websockets
+
+override_dh_install:
+	dh_install
+
+	# Remove all .la files from the package.
+	# https://lintian.debian.org/tags/non-empty-dependency_libs-in-la-file.html
+	find debian -name '*.la' -delete
+
+	# Remove website html directory.
+	# https://lintian.debian.org/tags/privacy-breach-uses-embedded-file.html
+	rm -rf debian/janus/usr/share/janus/html
