@@ -15,7 +15,7 @@ build/janus_1.0.1-20220513_armhf.deb
 
 ## Pre-requisites
 
-* Raspberry Pi OS (32bit) Bullseye
+* Raspberry Pi OS (32bit) Trixie
 * Docker
 * Git
 
