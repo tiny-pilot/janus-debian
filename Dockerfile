@@ -18,8 +18,8 @@ RUN apt-get update && \
 RUN apt-get install --yes --no-install-recommends \
       git \
       wget \
-      python3-pip \
       cmake \
+      meson \
       pkg-config
 
 # Install additional libnice dependency packages.
@@ -27,8 +27,6 @@ RUN apt-get install --yes --no-install-recommends \
       libglib2.0-dev \
       libssl-dev \
       ninja-build
-
-RUN pip3 install meson
 
 # Install additional Janus dependency packages.
 RUN apt-get install --yes --no-install-recommends \
