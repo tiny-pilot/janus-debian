@@ -38,7 +38,7 @@ RUN apt-get install --yes --no-install-recommends \
 
 # libince is recommended to be installed from source because the version
 # installed via apt is too low.
-ARG LIBNICE_VERSION='0.1.18'
+ARG LIBNICE_VERSION='0.1.22'
 RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
       --branch "${LIBNICE_VERSION}" \
       --single-branch && \
@@ -58,7 +58,7 @@ RUN git clone https://github.com/cisco/libsrtp \
     make shared_library && \
     make install
 
-ARG LIBWEBSOCKETS_VERSION='v3.2-stable'
+ARG LIBWEBSOCKETS_VERSION='v4.3.7'
 RUN git clone https://libwebsockets.org/repo/libwebsockets \
       --branch "${LIBWEBSOCKETS_VERSION}" \
       --single-branch && \
