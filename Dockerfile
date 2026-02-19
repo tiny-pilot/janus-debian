@@ -49,7 +49,7 @@ RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
     ninja -C build && \
     ninja -C build install
 
-ARG LIBSRTP_VERSION='2.2.0'
+ARG LIBSRTP_VERSION='2.6.0'
 RUN git clone https://github.com/cisco/libsrtp \
       --branch "v${LIBSRTP_VERSION}" \
       --single-branch && \
