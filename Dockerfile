@@ -49,13 +49,7 @@ RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
     ninja -C build && \
     ninja -C build install
 
-# libsrtp build dependencies.
-# Uses the NSS crypto backend (--enable-nss) to avoid OpenSSL symbol
-# incompatibilities, consistent with how Debian packages libsrtp2.
-RUN apt-get install --yes --no-install-recommends \
-      libnss3-dev
-
-ARG LIBSRTP_VERSION='2.7.0'
+ARG LIBSRTP_VERSION='2.2.0'
 RUN git clone https://github.com/cisco/libsrtp \
       --branch "v${LIBSRTP_VERSION}" \
       --single-branch && \
