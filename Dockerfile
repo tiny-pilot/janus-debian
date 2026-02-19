@@ -60,13 +60,7 @@ RUN git clone https://github.com/cisco/libsrtp \
     make shared_library && \
     make install
 
-# libwebsockets build dependencies.
-# libwebsockets requires OpenSSL and is built with CMake.
-RUN apt-get install --yes --no-install-recommends \
-      cmake \
-      libssl-dev
-
-ARG LIBWEBSOCKETS_VERSION='v4.3.5'
+ARG LIBWEBSOCKETS_VERSION='v4.3.7'
 RUN git clone https://libwebsockets.org/repo/libwebsockets \
       --branch "${LIBWEBSOCKETS_VERSION}" \
       --single-branch && \
