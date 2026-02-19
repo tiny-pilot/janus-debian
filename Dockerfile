@@ -17,8 +17,10 @@ RUN apt-get update && \
 # Install general-purpose packages.
 RUN apt-get install --yes --no-install-recommends \
       git \
-      pkg-config \
-      wget
+      wget \
+      cmake \
+      meson \
+      pkg-config
 
 # libnice build dependencies.
 # libnice requires GLib and OpenSSL (for DTLS), and is built with Meson/Ninja.
@@ -27,6 +29,14 @@ RUN apt-get install --yes --no-install-recommends \
       libssl-dev \
       meson \
       ninja-build
+
+# Install additional Janus dependency packages.
+RUN apt-get install --yes --no-install-recommends \
+      automake \
+      libtool \
+      libjansson-dev \
+      libconfig-dev \
+      gengetopt
 
 # libince is recommended to be installed from source because the version
 # installed via apt is too low.
