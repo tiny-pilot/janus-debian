@@ -48,9 +48,10 @@ RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
     ninja -C build install
 
 ARG LIBSRTP_VERSION='2.2.0'
-RUN wget "https://github.com/cisco/libsrtp/archive/v${LIBSRTP_VERSION}.tar.gz" && \
-    tar xfv "v${LIBSRTP_VERSION}.tar.gz" && \
-    cd "libsrtp-${LIBSRTP_VERSION}" && \
+RUN git clone https://github.com/cisco/libsrtp \
+      --branch "v${LIBSRTP_VERSION}" \
+      --single-branch && \
+    cd libsrtp && \
     ./configure \
       --prefix=/usr \
       --enable-openssl && \
