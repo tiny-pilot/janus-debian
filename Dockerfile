@@ -65,7 +65,7 @@ RUN git clone https://github.com/cisco/libsrtp \
     make && \
     make install
 
-ARG LIBWEBSOCKETS_VERSION='v4.3.7'
+ARG LIBWEBSOCKETS_VERSION='v4.3.5'
 RUN git clone https://libwebsockets.org/repo/libwebsockets \
       --branch "${LIBWEBSOCKETS_VERSION}" \
       --single-branch && \
