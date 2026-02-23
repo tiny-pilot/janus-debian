@@ -52,10 +52,15 @@ RUN git clone https://github.com/cisco/libsrtp \
       --branch "v${LIBSRTP_VERSION}" \
       --single-branch && \
     cd libsrtp && \
-    ./configure \
-      --prefix=/usr \
-      --enable-openssl && \
-    make shared_library && \
+    mkdir build && \
+    cd build && \
+    cmake \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_INSTALL_LIBDIR=lib \
+      -DENABLE_OPENSSL=ON \
+      -DBUILD_SHARED_LIBS=ON \
+      .. && \
+    make && \
     make install
 
 ARG LIBWEBSOCKETS_VERSION='v4.3.7'
