@@ -17,10 +17,8 @@ RUN apt-get update && \
 # Install general-purpose packages.
 RUN apt-get install --yes --no-install-recommends \
       git \
-      wget \
-      cmake \
-      meson \
-      pkg-config
+      pkg-config \
+      wget
 
 # libnice build dependencies.
 # libnice requires GLib and OpenSSL (for DTLS), and is built with Meson/Ninja.
@@ -29,14 +27,6 @@ RUN apt-get install --yes --no-install-recommends \
       libssl-dev \
       meson \
       ninja-build
-
-# Install additional Janus dependency packages.
-RUN apt-get install --yes --no-install-recommends \
-      automake \
-      libtool \
-      libjansson-dev \
-      libconfig-dev \
-      gengetopt
 
 # libince is recommended to be installed from source because the version
 # installed via apt is too low.
@@ -49,21 +39,28 @@ RUN git clone https://gitlab.freedesktop.org/libnice/libnice \
     ninja -C build && \
     ninja -C build install
 
-ARG LIBSRTP_VERSION='2.6.0'
+# libsrtp build dependencies.
+# Uses the NSS crypto backend (--enable-nss) to avoid OpenSSL symbol
+# incompatibilities, consistent with how Debian packages libsrtp2.
+RUN apt-get install --yes --no-install-recommends \
+      libnss3-dev
+
+ARG LIBSRTP_VERSION='2.7.0'
 RUN git clone https://github.com/cisco/libsrtp \
       --branch "v${LIBSRTP_VERSION}" \
       --single-branch && \
     cd libsrtp && \
-    mkdir build && \
-    cd build && \
-    cmake \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DCMAKE_INSTALL_LIBDIR=lib \
-      -DENABLE_OPENSSL=ON \
-      -DBUILD_SHARED_LIBS=ON \
-      .. && \
-    make && \
+    ./configure \
+      --prefix=/usr \
+      --enable-nss && \
+    make shared_library && \
     make install
+
+# libwebsockets build dependencies.
+# libwebsockets requires OpenSSL and is built with CMake.
+RUN apt-get install --yes --no-install-recommends \
+      cmake \
+      libssl-dev
 
 ARG LIBWEBSOCKETS_VERSION='v4.3.5'
 RUN git clone https://libwebsockets.org/repo/libwebsockets \
@@ -149,7 +146,7 @@ Priority: optional
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
 Build-Depends:
  automake,
- debhelper (>= 13),
+ debhelper (>= 11),
  dh-exec,
  gengetopt,
  libconfig-dev,
