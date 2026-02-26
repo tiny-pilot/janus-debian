@@ -146,7 +146,7 @@ Priority: optional
 Maintainer: TinyPilot Support <support@tinypilotkvm.com>
 Build-Depends:
  automake,
- debhelper (>= 11),
+ debhelper (>= 13),
  dh-exec,
  gengetopt,
  libconfig-dev,
