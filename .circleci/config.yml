@@ -3,6 +3,9 @@ executors:
   ubuntu:
     docker:
       - image: cimg/base:2024.02
+  debian:
+    docker:
+      - image: debian:trixie-20260202-slim
 jobs:
   check_whitespace:
     executor: ubuntu
@@ -50,17 +53,17 @@ jobs:
       - store_artifacts:
           path: build
   check_debian_package:
-    executor: ubuntu
+    executor: debian
     steps:
       - checkout
       - attach_workspace:
           at: ./
       - run:
           name: Update apt packages
-          command: sudo apt-get update
+          command: apt-get update
       - run:
           name: Install lintian
-          command: sudo apt-get install -y lintian=2.114.0ubuntu1
+          command: apt-get install -y lintian=2.122.0
       - run:
           name: Print lintian version
           command: lintian --version
