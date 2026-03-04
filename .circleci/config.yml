@@ -59,8 +59,34 @@ jobs:
           name: Update apt packages
           command: sudo apt-get update
       - run:
+          name: Install lintian build tools
+          command: apt-get install -y devscripts equivs git
+      - run:
+          name: Clone lintian source
+          command: |
+            git clone \
+              --depth 1 \
+              --branch 2.130.1 \
+              https://salsa.debian.org/lintian/lintian.git \
+              /tmp/lintian-build
+      - run:
+          name: Install lintian build dependencies
+          command: |
+            cd /tmp/lintian-build
+            DEB_BUILD_PROFILES='nocheck nodoc' \
+              mk-build-deps \
+                --install \
+                --remove \
+                --tool 'apt-get --no-install-recommends -y' \
+                debian/control
+      - run:
+          name: Build lintian
+          command: |
+            cd /tmp/lintian-build
+            dpkg-buildpackage -us -uc -b -Pnocheck,nodoc
+      - run:
           name: Install lintian
-          command: sudo apt-get install -y lintian=2.114.0ubuntu1
+          command: apt-get install -y /tmp/lintian_*.deb
       - run:
           name: Print lintian version
           command: lintian --version
