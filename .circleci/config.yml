@@ -3,6 +3,9 @@ executors:
   ubuntu:
     docker:
       - image: cimg/base:2024.02
+  debian:
+    docker:
+      - image: debian:trixie-20260202-slim
 jobs:
   check_whitespace:
     executor: ubuntu
@@ -50,48 +53,56 @@ jobs:
       - store_artifacts:
           path: build
   check_debian_package:
-    executor: ubuntu
+    executor: debian
     steps:
       - checkout
       - attach_workspace:
           at: ./
+      - restore_cache:
+          keys:
+            - v1-lintian-2.130.1
       - run:
-          name: Install lintian build tools
+          name: Build lintian .deb
           command: |
             set -eux
-            sudo apt-get update
-            sudo apt-get install --yes devscripts equivs git
-      - run:
-          name: Clone lintian source
-          command: |
-            set -eux
+            if [[ -f ~/lintian-cache/lintian.deb ]]; then
+              exit 0
+            fi
+            # Install build tools.
+            apt-get update
+            apt-get install --yes devscripts equivs git
+
+            # Clone source.
             git clone \
               --depth 1 \
               --branch 2.130.1 \
               https://salsa.debian.org/lintian/lintian.git \
               /tmp/lintian-build
-      - run:
-          name: Install lintian build dependencies
-          command: |
-            set -eux
+
+            # Install build dependencies.
             cd /tmp/lintian-build
             DEB_BUILD_PROFILES='nocheck nodoc' \
-              sudo mk-build-deps \
+              mk-build-deps \
                 --install \
                 --remove \
-                --tool 'sudo apt-get --no-install-recommends --yes' \
+                --tool 'apt-get --no-install-recommends --yes' \
                 debian/control
-      - run:
-          name: Build and install lintian
-          command: |
-            set -eux
-            cd /tmp/lintian-build
+
+            # Build and cache the .deb.
             dpkg-buildpackage \
               --unsigned-source \
               --unsigned-changes \
               --build=binary \
               --build-profiles=nocheck,nodoc
-            sudo apt-get install --yes /tmp/lintian_*.deb
+            mkdir --parents ~/lintian-cache
+            cp /tmp/lintian_*.deb ~/lintian-cache/lintian.deb
+      - save_cache:
+          key: v1-lintian-2.130.1
+          paths:
+            - ~/lintian-cache
+      - run:
+          name: Install lintian
+          command: apt-get install --yes ~/lintian-cache/lintian.deb
       - run:
           name: Print lintian version
           command: lintian --version
