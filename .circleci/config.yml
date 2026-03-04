@@ -57,7 +57,7 @@ jobs:
           at: ./
       - run:
           name: Update apt packages
-          command: sudo apt-get update
+          command: apt-get update
       - run:
           name: Install lintian build tools
           command: apt-get install -y devscripts equivs git
