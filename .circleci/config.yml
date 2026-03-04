@@ -56,14 +56,15 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Update apt packages
-          command: apt-get update
-      - run:
           name: Install lintian build tools
-          command: apt-get install -y devscripts equivs git
+          command: |
+            set -eux
+            sudo apt-get update
+            sudo apt-get install --yes devscripts equivs git
       - run:
           name: Clone lintian source
           command: |
+            set -eux
             git clone \
               --depth 1 \
               --branch 2.130.1 \
@@ -72,21 +73,25 @@ jobs:
       - run:
           name: Install lintian build dependencies
           command: |
+            set -eux
             cd /tmp/lintian-build
             DEB_BUILD_PROFILES='nocheck nodoc' \
-              mk-build-deps \
+              sudo mk-build-deps \
                 --install \
                 --remove \
-                --tool 'apt-get --no-install-recommends -y' \
+                --tool 'sudo apt-get --no-install-recommends --yes' \
                 debian/control
       - run:
-          name: Build lintian
+          name: Build and install lintian
           command: |
+            set -eux
             cd /tmp/lintian-build
-            dpkg-buildpackage -us -uc -b -Pnocheck,nodoc
-      - run:
-          name: Install lintian
-          command: apt-get install -y /tmp/lintian_*.deb
+            dpkg-buildpackage \
+              --unsigned-source \
+              --unsigned-changes \
+              --build=binary \
+              --build-profiles=nocheck,nodoc
+            sudo apt-get install --yes /tmp/lintian_*.deb
       - run:
           name: Print lintian version
           command: lintian --version
