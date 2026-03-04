@@ -59,11 +59,13 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Update apt packages
-          command: apt-get update
-      - run:
           name: Install lintian
-          command: apt-get install -y lintian=2.122.0
+          command: |
+            set -eux
+            echo 'deb https://snapshot.debian.org/archive/debian/20250329T031528Z/ trixie main' \
+              > /etc/apt/sources.list.d/snapshot.list
+            apt-get update
+            apt-get install --yes lintian=2.122.0
       - run:
           name: Print lintian version
           command: lintian --version
