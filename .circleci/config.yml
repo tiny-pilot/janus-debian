@@ -62,6 +62,7 @@ jobs:
           name: Install lintian
           command: |
             set -eux
+            # Add a snapshot source so that the lintian version can be pinned.
             echo 'deb https://snapshot.debian.org/archive/debian/20250329T031528Z/ trixie main' \
               > /etc/apt/sources.list.d/snapshot.list
             apt-get update
