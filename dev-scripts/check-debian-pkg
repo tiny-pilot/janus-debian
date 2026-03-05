@@ -17,8 +17,9 @@ while read -r file; do
   # Lint Debian package.
   lintian \
     --check \
-    --no-tag-display-limit \
-    --no-cfg \
     --fail-on warning,error \
+    --no-cfg \
+    --tag-display-limit 0 \
+    --verbose \
     "${file}"
 done < <(ls -- *.deb)
