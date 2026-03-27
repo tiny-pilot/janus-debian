@@ -100,8 +100,8 @@ case "${TARGETPLATFORM}" in
   'linux/amd64')
     PKG_ARCH='amd64'
     ;;
-  'linux/arm/v7')
-    PKG_ARCH='armhf'
+  'linux/arm64')
+    PKG_ARCH='arm64'
     ;;
   *)
     echo "Unrecognized target platform: ${TARGETPLATFORM}" >&2
