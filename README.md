@@ -15,7 +15,7 @@ build/janus_1.0.1-20220513_arm64.deb
 
 ## Pre-requisites
 
-* Raspberry Pi OS (32bit) Trixie
+* Raspberry Pi OS Trixie (64-bit)
 * Docker
 * Git
 
