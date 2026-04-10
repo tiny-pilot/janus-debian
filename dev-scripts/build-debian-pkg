@@ -7,11 +7,11 @@
 #
 # target architecture: A comma-separated list of architectures that Docker
 #   accepts for its --platform argument. The only supported targets are
-#   linux/arm/v7 and linux/amd64.
+#   linux/arm64 and linux/amd64.
 #
 # Examples
-#  build-debian-pkg 'linux/arm/v7'
-#  build-debian-pkg 'linux/arm/v7,linux/amd64'
+#  build-debian-pkg 'linux/arm64'
+#  build-debian-pkg 'linux/arm64,linux/amd64'
 
 # Exit on first failure.
 set -e

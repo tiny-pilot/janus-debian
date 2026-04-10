@@ -100,8 +100,8 @@ case "${TARGETPLATFORM}" in
   'linux/amd64')
     PKG_ARCH='amd64'
     ;;
-  'linux/arm/v7')
-    PKG_ARCH='armhf'
+  'linux/arm64')
+    PKG_ARCH='arm64'
     ;;
   *)
     echo "Unrecognized target platform: ${TARGETPLATFORM}" >&2
@@ -128,7 +128,7 @@ RUN git clone https://github.com/meetecho/janus-gateway.git \
 # Janus can find these libraries at runtime.
 RUN mkdir shlib && \
     cp --no-dereference \
-      /usr/lib/arm-linux-gnueabihf/libnice.so* \
+      /usr/lib/aarch64-linux-gnu/libnice.so* \
       /usr/lib/libsrtp2.so* \
       /usr/lib/libwebsockets.so* \
       shlib
