@@ -45,7 +45,7 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Build Debian package
-          command: ./dev-scripts/build-debian-pkg 'linux/arm64'
+          command: ./dev-scripts/build-debian-pkg
       - persist_to_workspace:
           root: build
           paths:
