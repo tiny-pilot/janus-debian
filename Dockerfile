@@ -85,7 +85,7 @@ RUN git clone https://libwebsockets.org/repo/libwebsockets \
 ARG TARGETPLATFORM
 
 ARG PKG_NAME='janus'
-ARG PKG_VERSION='1.3.2'
+ARG PKG_VERSION='1.4.1'
 
 # This should be a timestamp, formatted `YYYYMMDDhhmmss`. That way the package
 # manager always installs the most recently built package.
